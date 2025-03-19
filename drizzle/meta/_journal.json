@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1742342214298,
+      "tag": "0000_concerned_spirit",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1742346092092,
+      "tag": "0001_bright_metal_master",
+      "breakpoints": true
+    }
+  ]
+}
