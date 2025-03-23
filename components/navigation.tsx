@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const routes = [
   {
-    href: "/overview",
+    href: "/",
     label: "Overview",
   },
   {
