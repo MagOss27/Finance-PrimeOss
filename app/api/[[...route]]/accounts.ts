@@ -14,9 +14,7 @@ app.get("/", clerkMiddleware(), async (c) => {
   const auth = getAuth(c);
 
   if (!auth?.userId) {
-    throw new HTTPException(401, {
-      res: c.json({ error: "Unauthorized" }, 401),
-    });
+    return c.json({ error: "Unauthorized" }, 401);
   }
 
   const data = await db
@@ -29,6 +27,43 @@ app.get("/", clerkMiddleware(), async (c) => {
 
   return c.json({ data });
 });
+
+app.get(
+  "/:id",
+  zValidator(
+    "param",
+    z.object({
+      id: z.string().optional(),
+    })
+  ),
+  clerkMiddleware(),
+  async (c) => {
+    const auth = getAuth(c);
+    const { id } = c.req.valid("param");
+
+    if (!id) {
+      return c.json({ error: "Missing id" }, 400);
+    }
+
+    if (!auth?.userId) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+
+    const [data] = await db
+      .select({
+        id: accounts.id,
+        name: accounts.name,
+      })
+      .from(accounts)
+      .where(and(eq(accounts.userId, auth.userId), eq(accounts.id, id)));
+
+    if (!data) {
+      return c.json({ error: "Not found" }, 401);
+    }
+
+    return c.json({ data });
+  }
+);
 
 app.post(
   "/",
